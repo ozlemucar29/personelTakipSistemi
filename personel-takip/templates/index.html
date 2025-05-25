@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Ana Sayfa - Personel Takip Sistemi{% endblock %}
+
+{% block content %}
+<div class="row" style="margin-top: 5vh;">
+    <div class="col s12 center-align">
+        <h3 class="blue-text text-darken-3" style="font-weight:600;">Hoşgeldiniz{% if current_user.is_authenticated %}, {{ current_user.username }}{% endif %}!</h3>
+        <p class="grey-text text-darken-2" style="font-size:1.2rem;">Personel Takip Sistemi ile personel bilgilerinizi kolayca yönetin, raporlarınızı görüntüleyin ve işlemlerinizi hızlıca gerçekleştirin.</p>
+    </div>
+</div>
+<div class="row" style="margin-top: 40px;">
+    <div class="col s12 m4">
+        <div class="card hoverable">
+            <div class="card-content center-align">
+                <i class="material-icons large blue-text">group</i>
+                <span class="card-title">Personel Listesi</span>
+                <p>Mevcut personelleri görüntüleyin, yeni personel ekleyin veya düzenleyin.</p>
+            </div>
+            <div class="card-action center-align">
+                <a href="/personel" class="btn blue darken-3 waves-effect waves-light">Personel Listesine Git</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m4">
+        <div class="card hoverable">
+            <div class="card-content center-align">
+                <i class="material-icons large orange-text">bar_chart</i>
+                <span class="card-title">Raporlar</span>
+                <p>Personel ve maaş raporlarını inceleyin, pozisyon dağılımını görün.</p>
+            </div>
+            <div class="card-action center-align">
+                <a href="/raporlar" class="btn orange darken-3 waves-effect waves-light">Raporlara Git</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m4">
+        <div class="card hoverable">
+            <div class="card-content center-align">
+                <i class="material-icons large green-text">account_circle</i>
+                <span class="card-title">Profilim</span>
+                <p>Kullanıcı bilgilerinizi görüntüleyin ve şifrenizi güncelleyin.</p>
+            </div>
+            <div class="card-action center-align">
+                <a href="/profil" class="btn green darken-3 waves-effect waves-light">Profilime Git</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

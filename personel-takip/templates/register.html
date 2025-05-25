@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row" style="margin-top: 5vh;">
+    <div class="col s12 m6 offset-m3">
+        <div class="card z-depth-3">
+            <div class="card-content">
+                <div class="center-align">
+                    <i class="material-icons large blue-text text-darken-3">person_add</i>
+                    <span class="card-title" style="font-weight:600;">Kayıt Ol</span>
+                </div>
+                {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    <div class="card-panel red lighten-4 red-text text-darken-4" style="margin-bottom:20px;">
+                      {{ messages[0] }}
+                    </div>
+                  {% endif %}
+                {% endwith %}
+                <form method="POST">
+                    <div class="input-field">
+                        <i class="material-icons prefix">person</i>
+                        <input type="text" name="username" id="username" required>
+                        <label for="username">Kullanıcı Adı</label>
+                    </div>
+                    <div class="input-field">
+                        <i class="material-icons prefix">vpn_key</i>
+                        <input type="password" name="password" id="password" required>
+                        <label for="password">Şifre</label>
+                    </div>
+                    <button class="btn-large waves-effect waves-light blue darken-3" style="width:100%;margin-top:10px;" type="submit">
+                        Kayıt Ol
+                        <i class="material-icons right">person_add</i>
+                    </button>
+                </form>
+                <div class="center-align" style="margin-top:20px;">
+                    <span>Zaten hesabınız var mı?</span>
+                    <a href="{{ url_for('login') }}" class="btn-flat blue-text text-darken-3">Giriş Yap</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

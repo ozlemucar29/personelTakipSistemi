@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}Personel Listesi - Personel Takip Sistemi{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s6">
+                        <span class="card-title">Personel Listesi</span>
+                    </div>
+                    <div class="col s6 right-align">
+                        <a href="/personel/ekle" class="btn waves-effect waves-light blue darken-3">
+                            <i class="material-icons left">add</i>Yeni Personel Ekle
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col s12 m4">
+                        <select>
+                            <option value="" disabled selected>Pozisyon Filtrele</option>
+                            <option value="1">Yönetici</option>
+                            <option value="2">Muhasebe</option>
+                            <option value="3">Satış</option>
+                        </select>
+                    </div>
+                    <div class="col s12 m4">
+                        <input type="text" id="search" placeholder="İsim ile ara...">
+                    </div>
+                </div>
+
+                <table class="striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ad Soyad</th>
+                            <th>Pozisyon</th>
+                            <th>Maaş</th>
+                            <th>İşe Başlama</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="personel-table">
+                        {% for p in personeller %}
+                        <tr>
+                            <td>{{ p.ad }}</td>
+                            <td>{{ p.soyad }}</td>
+                            <td>{{ p.pozisyon }}</td>
+                            <td>{{ p.maas }}</td>
+                            <td>{{ p.ise_baslama }}</td>
+                            <td>
+                                <a href="{{ url_for('personel_duzenle', id=p.id) }}" class="btn-small blue darken-3 waves-effect waves-light" style="margin-right:5px;">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                                <!-- Giriş butonu -->
+                                <form action="{{ url_for('personel_giris', id=p.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn-small green waves-effect waves-light" title="Giriş Yap">
+                                        <i class="material-icons">login</i>
+                                    </button>
+                                </form>
+                                <!-- Çıkış butonu -->
+                                <form action="{{ url_for('personel_cikis', id=p.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn-small orange waves-effect waves-light" title="Çıkış Yap">
+                                        <i class="material-icons">logout</i>
+                                    </button>
+                                </form>
+                                <!-- Detay butonu -->
+                                <a href="{{ url_for('personel_detay', id=p.id) }}" class="btn-small grey darken-2 waves-effect waves-light" style="margin-right:5px;">
+                                    <i class="material-icons">info</i>
+                                </a>
+                                <!-- Sil butonu ve modal -->
+                                <a class="btn-small red waves-effect waves-light modal-trigger" href="#modal-sil-{{ p.id }}">
+                                    <i class="material-icons">delete</i>
+                                </a>
+                                <div id="modal-sil-{{ p.id }}" class="modal">
+                                    <div class="modal-content">
+                                        <h5>Silme Onayı</h5>
+                                        <p><b>{{ p.ad }} {{ p.soyad }}</b> adlı personeli silmek istediğinize emin misiniz?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="{{ url_for('personel_sil', id=p.id) }}" method="POST" style="display:inline;">
+                                            <button type="submit" class="modal-close btn red">Evet, Sil</button>
+                                        </form>
+                                        <a href="#!" class="modal-close btn-flat">Vazgeç</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+        var modals = document.querySelectorAll('.modal');
+        M.Modal.init(modals);
+    });
+
+    // Arama
+    document.getElementById('search').addEventListener('keyup', function() {
+        var value = this.value.toLowerCase();
+        var rows = document.querySelectorAll('#personel-table tr');
+        rows.forEach(function(row) {
+            var ad = row.children[0].textContent.toLowerCase();
+            var soyad = row.children[1].textContent.toLowerCase();
+            if (ad.includes(value) || soyad.includes(value)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+
+    // Pozisyon filtreleme
+    document.querySelector('select').addEventListener('change', function() {
+        var value = this.options[this.selectedIndex].text.toLowerCase();
+        var rows = document.querySelectorAll('#personel-table tr');
+        rows.forEach(function(row) {
+            var pozisyon = row.children[2].textContent.toLowerCase();
+            if (value === 'pozisyon filtrele' || pozisyon === value) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %} 

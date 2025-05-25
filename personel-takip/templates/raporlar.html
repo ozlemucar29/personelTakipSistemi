@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Raporlar - Personel Takip Sistemi{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">Personel Raporları</span>
+                {% set toplam_personel = personeller|length %}
+                {% set toplam_maas = personeller|map(attribute='maas')|map('default', 0)|sum %}
+                {% set ortalama_maas = (toplam_maas / toplam_personel) if toplam_personel > 0 else 0 %}
+                <div class="row">
+                    <div class="col s12 m4">
+                        <div class="card blue darken-3 white-text">
+                            <div class="card-content">
+                                <span class="card-title">Toplam Personel</span>
+                                <h4>{{ toplam_personel }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="card green darken-3 white-text">
+                            <div class="card-content">
+                                <span class="card-title">Ortalama Maaş</span>
+                                <h4>{{ ortalama_maas|round(2) }} TL</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="card orange darken-3 white-text">
+                            <div class="card-content">
+                                <span class="card-title">Aylık Toplam Maaş</span>
+                                <h4>{{ toplam_maas|round(2) }} TL</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <h5>Pozisyon Dağılımı</h5>
+                        <table class="striped">
+                            <thead>
+                                <tr>
+                                    <th>Pozisyon</th>
+                                    <th>Kişi Sayısı</th>
+                                    <th>Ortalama Maaş</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set pozisyonlar = {} %}
+                                {% for p in personeller %}
+                                    {% set _ = pozisyonlar.setdefault(p.pozisyon, {'count': 0, 'maaslar': []}) %}
+                                    {% set _ = pozisyonlar[p.pozisyon].update({'count': pozisyonlar[p.pozisyon]['count'] + 1}) %}
+                                    {% set _ = pozisyonlar[p.pozisyon]['maaslar'].append(p.maas or 0) %}
+                                {% endfor %}
+                                {% for pozisyon, data in pozisyonlar.items() %}
+                                <tr>
+                                    <td>{{ pozisyon }}</td>
+                                    <td>{{ data['count'] }}</td>
+                                    <td>{{ (data['maaslar']|sum / data['count'])|round(2) }} TL</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <h5>Son Giriş-Çıkış Saatleri</h5>
+                        <table class="striped">
+                            <thead>
+                                <tr>
+                                    <th>Ad Soyad</th>
+                                    <th>Pozisyon</th>
+                                    <th>Son Giriş</th>
+                                    <th>Son Çıkış</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in personeller %}
+                                <tr>
+                                    <td>{{ p.ad }} {{ p.soyad }}</td>
+                                    <td>{{ p.pozisyon }}</td>
+                                    <td>{% if son_giris_cikis[p.id] %}{{ son_giris_cikis[p.id].giris_saati.strftime('%d.%m.%Y %H:%M') }}{% else %}-{% endif %}</td>
+                                    <td>{% if son_giris_cikis[p.id] and son_giris_cikis[p.id].cikis_saati %}{{ son_giris_cikis[p.id].cikis_saati.strftime('%d.%m.%Y %H:%M') }}{% else %}-{% endif %}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Giriş - Personel Takip Sistemi{% endblock %}
+
+{% block content %}
+<div class="row" style="margin-top: 5vh;">
+    <div class="col s12 m6 offset-m3">
+        <div class="card z-depth-3">
+            <div class="card-content">
+                <div class="center-align">
+                    <i class="material-icons large blue-text text-darken-3">lock</i>
+                    <span class="card-title" style="font-weight:600;">Yönetici Girişi</span>
+                </div>
+                {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    <div class="card-panel red lighten-4 red-text text-darken-4" style="margin-bottom:20px;">
+                      {{ messages[0] }}
+                    </div>
+                  {% endif %}
+                {% endwith %}
+                <form method="POST">
+                    <div class="input-field">
+                        <i class="material-icons prefix">person</i>
+                        <input id="username" name="username" type="text" class="validate" required>
+                        <label for="username">Kullanıcı Adı</label>
+                    </div>
+                    <div class="input-field">
+                        <i class="material-icons prefix">vpn_key</i>
+                        <input id="password" name="password" type="password" class="validate" required>
+                        <label for="password">Şifre</label>
+                    </div>
+                    <button class="btn-large waves-effect waves-light blue darken-3" style="width:100%;margin-top:10px;" type="submit">
+                        Giriş Yap
+                        <i class="material-icons right">send</i>
+                    </button>
+                </form>
+                <div class="center-align" style="margin-top:20px;">
+                    <span>Hesabınız yok mu?</span>
+                    <a href="{{ url_for('register') }}" class="btn-flat blue-text text-darken-3">Kayıt Ol</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

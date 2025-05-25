@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Personel Takip Sistemi{% endblock %}</title>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .welcome-text {
+            font-size: 1.2rem;
+            margin-right: 20px;
+            color: white;
+        }
+        .nav-wrapper {
+            padding: 0 20px;
+            background-color: #1a237e;
+        }
+        .logout-btn {
+            background-color: #d32f2f;
+            padding: 0 20px;
+            border-radius: 3px;
+        }
+        .logout-btn:hover {
+            background-color: #b71c1c;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="/" class="brand-logo left">Personel Takip</a>
+            <ul class="right">
+                <li><a href="/personel">Personel</a></li>
+                <li><a href="/raporlar">Raporlar</a></li>
+                {% if current_user.is_authenticated %}
+                    <li>
+                        <span class="welcome-text">
+                            <i class="material-icons left">person</i>
+                            Hoşgeldin, {{ current_user.username }}
+                        </span>
+                    </li>
+                    <li>
+                        <a href="/logout" class="logout-btn">
+                            <i class="material-icons left">exit_to_app</i>
+                            Çıkış
+                        </a>
+                    </li>
+                {% else %}
+                    <li><a href="/login">Giriş</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

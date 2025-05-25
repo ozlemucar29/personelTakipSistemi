@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row" style="margin-top: 5vh;">
+    <div class="col s12 m8 offset-m2">
+        <div class="card z-depth-3">
+            <div class="card-content">
+                <div class="center-align">
+                    <i class="material-icons large blue-text text-darken-3">account_circle</i>
+                    <span class="card-title" style="font-weight:600;">Profilim</span>
+                </div>
+                {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    <div class="card-panel red lighten-4 red-text text-darken-4" style="margin-bottom:20px;">
+                      {{ messages[0] }}
+                    </div>
+                  {% endif %}
+                {% endwith %}
+                <form method="POST">
+                    <div class="input-field">
+                        <i class="material-icons prefix">person</i>
+                        <input type="text" name="username" id="username" value="{{ current_user.username }}" required>
+                        <label for="username" class="active">Kullanıcı Adı</label>
+                    </div>
+                    <div class="input-field">
+                        <i class="material-icons prefix">lock</i>
+                        <input type="password" name="old_password" id="old_password">
+                        <label for="old_password">Eski Şifre (değiştirmek için)</label>
+                    </div>
+                    <div class="input-field">
+                        <i class="material-icons prefix">vpn_key</i>
+                        <input type="password" name="new_password" id="new_password">
+                        <label for="new_password">Yeni Şifre</label>
+                    </div>
+                    <button class="btn-large waves-effect waves-light blue darken-3" style="width:100%;margin-top:10px;" type="submit">
+                        Bilgilerimi Güncelle
+                        <i class="material-icons right">save</i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

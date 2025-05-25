@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row" style="margin-top: 5vh;">
+    <div class="col s12 m8 offset-m2">
+        <div class="card z-depth-3">
+            <div class="card-content">
+                <div class="center-align">
+                    <i class="material-icons large blue-text text-darken-3">edit</i>
+                    <span class="card-title" style="font-weight:600;">Personel Düzenle</span>
+                </div>
+                <form method="POST">
+                    <div class="row">
+                        <div class="input-field col s12 m6">
+                            <input type="text" name="ad" id="ad" value="{{ personel.ad }}" required>
+                            <label for="ad" class="active">Ad</label>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <input type="text" name="soyad" id="soyad" value="{{ personel.soyad }}" required>
+                            <label for="soyad" class="active">Soyad</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m6">
+                            <input type="text" name="pozisyon" id="pozisyon" value="{{ personel.pozisyon }}" required>
+                            <label for="pozisyon" class="active">Pozisyon</label>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <input type="number" name="maas" id="maas" value="{{ personel.maas }}">
+                            <label for="maas" class="active">Maaş</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m6">
+                            <input type="text" name="ise_baslama" id="ise_baslama" value="{{ personel.ise_baslama }}">
+                            <label for="ise_baslama" class="active">İşe Başlama Tarihi</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <button class="btn waves-effect waves-light blue darken-3" type="submit">
+                                Kaydet
+                                <i class="material-icons right">save</i>
+                            </button>
+                            <a href="{{ url_for('personel') }}" class="btn waves-effect waves-light grey">
+                                İptal
+                                <i class="material-icons right">cancel</i>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
