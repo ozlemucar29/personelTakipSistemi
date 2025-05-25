@@ -195,7 +195,6 @@ def personel_detay(id):
     giris_cikislar = GirisCikis.query.filter_by(personel_id=id).order_by(GirisCikis.giris_saati.desc()).all()
     return render_template('personel_detay.html', personel=personel, giris_cikislar=giris_cikislar)
 
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True) 
+import os
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
